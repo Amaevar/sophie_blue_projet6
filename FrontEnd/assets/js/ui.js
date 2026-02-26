@@ -11,7 +11,6 @@ function setActiveButton(activeButton) {
   activeButton.classList.add("active")
 }
 
-
 function handleFilterButton(container, category, works) {
     const button = document.createElement("button")
     button.textContent = category.name

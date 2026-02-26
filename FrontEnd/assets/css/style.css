@@ -209,3 +209,18 @@ footer nav ul {
 	margin: 2em
 }
 
+.hide {
+	display: none;
+}
+
+.display {
+	display: inline-block;
+}
+
+.edition{
+	display: flex;
+	justify-content: center;
+	background-color: black;
+	color: aliceblue;
+	padding: 20px;
+}
