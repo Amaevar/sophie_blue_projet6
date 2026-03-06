@@ -48,6 +48,7 @@ table {
 }
 /** end reset css**/
 body {
+	
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
@@ -123,7 +124,7 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+
 }
 
 .filters {
@@ -217,29 +218,111 @@ footer nav ul {
 	display: inline-block;
 }
 
-.edit{
-background:#000;
-color:#fff;
-text-align:center;
-padding:10px;
+/* --- LE BANDEAU NOIR --- */
+.edit-mode-banner {
+   width:100%;
+    background:#000;
+    color:#fff;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
 }
 
-.projects{
-	gap: 10px;
-  padding:25px 40px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+/* --- LE TITRE ET BOUTON MODIFIER --- */
+.portfolio-header {
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 80px;
+    margin-bottom: 60px;
+
 }
 
-.projects h1{
-		font-family: 'Syne';
-	font-weight: 700;
-	font-size: 30px;
-  margin:0;
-  color:#2f5d50;
+.edit-btn {
+cursor: pointer;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: black;
 }
 
-.projects span{
-  cursor:pointer;
+.icons{
+	color: rgb(0, 0, 0);
 }
+
+
+
+/* --- LA MODALE (L'arrière-plan) --- */
+.modal {
+	display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); 
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000; 
+}
+
+
+
+
+.modal-wrapper {
+    background-color: white;
+    width: 630px;
+    max-width: 90%;
+    padding: 60px 100px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-wrapper h3 {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+    font-size: 26px;
+    margin-bottom: 45px;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.add-photo-btn {
+    background-color: #1D6154;
+    color: white;
+    border: none;
+    border-radius: 60px;
+    padding: 10px 40px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+a{
+	text-decoration: none;
+	color: #000;
+}
+
+
+
+

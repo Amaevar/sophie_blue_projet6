@@ -8,7 +8,7 @@ const logoutButton = document.getElementById("logout")
 
 function logout() {
     console.log("Logout !")
-    
+
     // Suppression du jeton d'authentification
     localStorage.removeItem("token");
 
@@ -22,33 +22,34 @@ function logout() {
 export function authenticationCheck() {
     const isLogged = localStorage.getItem("token")
     const filters = document.querySelector(".filters")
-    const editBanner = document.querySelector(".edit-mode-banner") // Le bandeau noir
-    const editButton = document.querySelector(".edit-btn")        // Le bouton "modifier"
- 
+    const editBanner = document.querySelector(".edit-mode-banner")
+    const editButton = document.querySelector(".edit-btn")        
+
     // Si l'utilisateur n'est pas connecté
+
     if (!isLogged) {
         loginButton.setAttribute("class", "display")
         logoutButton.setAttribute("class", "hide")
 
-    if (editBanner) editBanner.style.display = "none"
-    if (editButton) editButton.style.display = "none"
-    if (filters) filters.style.display = "flex" 
-        
+        //  cache le bandeau noir le bouton modifier et garde les filtre
+
+        if (editBanner) editBanner.style.display = "none"
+        if (editButton) editButton.style.display = "none"
+        if (filters) filters.style.display = "flex"
+
         return
     }
 
-    // Si l'utilisateur est connecté : inversion des boutons et ajout de l'événement logout
+    // Si l'utilisateur est connecté 
     loginButton.setAttribute("class", "hide")
     logoutButton.setAttribute("class", "display")
 
+    //  Affichage du bandeau noir du bouton modifier et cache les filtre
 
-    // 1. Affichage du bandeau noir et du bouton modifier
     if (editBanner) editBanner.style.display = "flex"
     if (editButton) editButton.style.display = "inline-block"
-
-    // 2. Masquage des filtres comme demandé
     if (filters) filters.style.display = "none"
-    
+
     logoutButton.addEventListener("click", (e) => {
         e.preventDefault()
         logout()
@@ -82,7 +83,7 @@ async function handleSubmit() {
 // --- INITIALISATION DES ÉCOUTEURS D'ÉVÉNEMENTS DU FORMULAIRE ---
 async function login() {
     const form = document.querySelector(".login-form");
-    
+
     // Interception de l'envoi du formulaire
     form.addEventListener("submit", async function (e) {
         e.preventDefault()
@@ -90,5 +91,5 @@ async function login() {
     })
 }
 
-// Lancement de la logique de connexion
+
 login()
