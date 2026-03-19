@@ -3,9 +3,23 @@ import { loginApi } from "./api.js";
 // Sélection des éléments de navigation (Login/Logout)
 const loginButton = document.getElementById("login")
 const logoutButton = document.getElementById("logout")
+const editBanner = document.querySelector(".edit-mode-banner")
+const editButton = document.querySelector(".edit-btn")
+const filters = document.querySelector(".filters")
+
+function handleBannerDisplay(shouldDisplay) {
+    if (shouldDisplay) {
+        editBanner.style.display = "flex"
+        editButton.style.display = "inline-block"
+        filters.style.display = "none"
+    } else {
+        editBanner.style.display = "none"
+        editButton.style.display = "none"
+        filters.style.display = "flex"
+    }
+}
 
 // --- ACTION DE DÉCONNEXION ---
-
 function logout() {
     console.log("Logout !")
 
@@ -15,28 +29,20 @@ function logout() {
     // Mise à jour de l'affichage des boutons
     loginButton.setAttribute("class", "display")
     logoutButton.setAttribute("class", "hide")
+    handleBannerDisplay(false)
 }
 
 // --- VÉRIFICATION DE L'ÉTAT DE CONNEXION ---
-
 export function authenticationCheck() {
     const isLogged = localStorage.getItem("token")
-    const filters = document.querySelector(".filters")
-    const editBanner = document.querySelector(".edit-mode-banner")
-    const editButton = document.querySelector(".edit-btn")        
 
     // Si l'utilisateur n'est pas connecté
-
     if (!isLogged) {
         loginButton.setAttribute("class", "display")
         logoutButton.setAttribute("class", "hide")
 
         //  cache le bandeau noir le bouton modifier et garde les filtre
-
-        if (editBanner) editBanner.style.display = "none"
-        if (editButton) editButton.style.display = "none"
-        if (filters) filters.style.display = "flex"
-
+        handleBannerDisplay(false)
         return
     }
 
@@ -45,10 +51,7 @@ export function authenticationCheck() {
     logoutButton.setAttribute("class", "display")
 
     //  Affichage du bandeau noir du bouton modifier et cache les filtre
-
-    if (editBanner) editBanner.style.display = "flex"
-    if (editButton) editButton.style.display = "inline-block"
-    if (filters) filters.style.display = "none"
+    handleBannerDisplay(true)
 
     logoutButton.addEventListener("click", (e) => {
         e.preventDefault()

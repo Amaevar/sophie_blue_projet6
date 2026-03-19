@@ -1,6 +1,7 @@
 import { getWorksApi, getCategoriesApi } from "./api.js"
 import { displayWorks, displayFilters } from "./ui.js"
 import { authenticationCheck } from "./login.js"
+import { openModal } from "./modal.js"
 
 async function main() {
   // Vérification de l'état de connexion (affichage du mode édition si nécessaire)
@@ -13,6 +14,12 @@ async function main() {
   // Initialisation de l'interface : affichage de la galerie et des filtres
   displayWorks(works)
   displayFilters(categories, works)
+
+  const modalBtn = document.querySelector(".js-modal");
+  modalBtn.addEventListener("click", function (e) {
+    e.preventDefault()
+    openModal(works)
+  })
 }
 
 // Lancement de l'application
