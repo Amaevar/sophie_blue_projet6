@@ -33,3 +33,21 @@ function closeModal() {
     modal.style.display = "none"
     modal = null
 }
+
+// Sélection des éléments
+const btnAddPhoto = document.querySelector('.add-photo-btn');
+const btnBack = document.querySelector('.js-back-to-gallery');
+const viewGallery = document.getElementById('view-gallery');
+const viewAddPhoto = document.getElementById('view-add-photo');
+
+// Passage à la vue "Ajout photo"
+btnAddPhoto.addEventListener('click', () => {
+    viewGallery.style.display = 'none';
+    viewAddPhoto.style.display = 'block';
+});
+
+// Retour à la vue "Galerie"
+btnBack.addEventListener('click', () => {
+    viewAddPhoto.style.display = 'none';
+    viewGallery.style.display = 'block';
+});
