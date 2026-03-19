@@ -319,5 +319,35 @@ a{
 }
 
 
+/* Pour aligner les photos en grille de 5 */
+.modal-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    
+}
 
+/* Pour placer la poubelle sur l'image */
+.modal-figure {
+    position: relative;
+}
+
+.modal-figure img {
+    width: 100%;
+    display: block;
+}
+
+.delete-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: black;
+    color: white;
+    padding: 3px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 10px;
+}
 

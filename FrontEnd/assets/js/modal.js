@@ -1,7 +1,19 @@
 let modal = null
 
 function displayModalWorks(works) {
-    console.log("===> displayModalWorks", works)
+    const modalGallery = document.querySelector(".modal-gallery");
+    if (!modalGallery) return;
+
+    modalGallery.innerHTML = ""; // On vide avant d'ajouter
+
+    works.forEach(work => {
+        modalGallery.innerHTML += `
+            <figure class="modal-figure">
+                <img src="${work.imageUrl}" alt="${work.title}">
+                <i class="fa-solid fa-trash-can delete-icon" onclick="deleteWork(${work.id})"></i>
+            </figure>
+        `;
+    });
 }
 
 export function openModal(works) {
