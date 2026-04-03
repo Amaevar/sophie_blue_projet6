@@ -1,90 +1,80 @@
+// --- 1. GÉNÉRATION DU HTML ---
+
 /**
- * --- GÉNÉRATION DU HTML ---
+ * Génère le squelette HTML d'un projet pour la galerie principale.
  */
 function getWorkElement(work) {
-  return `<figure>
+    return `<figure>
         <img src="${work.imageUrl}" alt="${work.title}">
         <figcaption>${work.title}</figcaption>
-    </figure>`
+    </figure>`;
 }
 
+// --- 2. GESTION DES FILTRES ---
 
-/** --- GESTION VISUELLE DES BOUTONS --- */
+/**
+ * Gère l'état visuel actif/inactif des boutons de filtre.
+ */
 
 function setActiveButton(activeButton) {
-  const buttons = document.querySelectorAll(".filter-btn")
-
-  // Retire la classe active de tous les boutons
-  buttons.forEach(btn => btn.classList.remove("active"))
-
-  // L'ajoute uniquement au bouton cliqué
-  activeButton.classList.add("active")
+    const buttons = document.querySelectorAll(".filter-btn");
+    buttons.forEach(btn => btn.classList.remove("active"));
+    activeButton.classList.add("active");
 }
 
 /**
- * --- LOGIQUE DES FILTRES ---
- * Crée un bouton de filtre et définit son comportement au clic.
+ * Crée un bouton de filtre et gère son comportement au clic.
  */
-
 function handleFilterButton(container, category, works) {
-  const button = document.createElement("button")
-  button.textContent = category.name
-  button.classList.add("filter-btn")
+    const button = document.createElement("button");
+    button.textContent = category.name;
+    button.classList.add("filter-btn");
 
-  // Par défaut, le bouton "Tous" est actif à l'initialisation
-  if (category.id === "all") {
-    button.classList.add("active")
-  }
-
-  // Événement au clic pour filtrer la galerie
-  button.addEventListener("click", () => {
-    setActiveButton(button)
-
+    // Par défaut, le bouton "Tous" est actif
     if (category.id === "all") {
-      // Affiche la totalité des travaux
-      displayWorks(works)
-    } else {
-      // Filtre les travaux selon l'ID de la catégorie
-      const filteredWorks = works.filter(
-        work => work.category.id === category.id
-      )
-      displayWorks(filteredWorks)
+        button.classList.add("active");
     }
-  })
 
-  container.appendChild(button)
+    button.addEventListener("click", () => {
+        setActiveButton(button);
+
+        if (category.id === "all") {
+            displayWorks(works);
+        } else {
+            const filteredWorks = works.filter(work => work.category.id === category.id);
+            displayWorks(filteredWorks);
+        }
+    });
+
+    container.appendChild(button);
 }
 
-/**
- * --- AFFICHAGE DE LA GALERIE ---
- * Vide le conteneur actuel et affiche la liste des travaux fournis.
- */
+// --- 3. FONCTIONS EXPORTÉES (AFFICHAGE) ---
 
+/**
+ * Vide et rafraîchit la galerie d'images principale.
+ */
 export function displayWorks(works) {
-  const gallery = document.querySelector(".gallery")
-  gallery.innerHTML = "" // Nettoyage de la galerie avant affichage
+    const gallery = document.querySelector(".gallery");
+    gallery.innerHTML = ""; // Nettoyage du contenu précédent
 
-  works.forEach((work) => {
-    const workElement = getWorkElement(work)
-    gallery.innerHTML += workElement
-  })
+    works.forEach((work) => {
+        const workElement = getWorkElement(work);
+        gallery.innerHTML += workElement;
+    });
 }
 
-
-
 /**
- * --- INITIALISATION DES FILTRES ---
- * Ajoute l'option "Tous" et génère les boutons de catégories dans le DOM.
+ * Initialise l'affichage des filtres par catégorie.
  */
-
 export function displayFilters(categories, works) {
-  const filtersContainer = document.querySelector(".filters")
+    const filtersContainer = document.querySelector(".filters");
 
-  // Ajout manuel de la catégorie globale au début du tableau
-  categories.unshift({ id: "all", name: "Tous" })
+    // Ajout manuel de la catégorie "Tous" au début
+    categories.unshift({ id: "all", name: "Tous" });
 
-  // Création d'un bouton pour chaque catégorie
-  categories.forEach(category => {
-    handleFilterButton(filtersContainer, category, works)
-  })
+    // Création des boutons pour chaque catégorie
+    categories.forEach(category => {
+        handleFilterButton(filtersContainer, category, works);
+    });
 }

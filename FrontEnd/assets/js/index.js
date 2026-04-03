@@ -1,26 +1,27 @@
-import { getWorksApi, getCategoriesApi } from "./api.js"
-import { displayWorks, displayFilters } from "./ui.js"
-import { authenticationCheck } from "./login.js"
-import { openModal } from "./modal.js"
+import { getWorksApi, getCategoriesApi } from "./api.js";
+import { displayWorks, displayFilters } from "./ui.js";
+import { authenticationCheck } from "./login.js";
+import { openModal } from "./modal.js";
 
 async function main() {
-  // Vérification de l'état de connexion (affichage du mode édition si nécessaire)
-  authenticationCheck()
+  // 1. Gestion de l'UI selon l'état de connexion
+  authenticationCheck();
 
-  // Récupération simultanée des données (travaux et catégories) via l'API
-  const works = await getWorksApi()
-  const categories = await getCategoriesApi()
+  // 2. Chargement initial des données
+  const works = await getWorksApi();
+  const categories = await getCategoriesApi();
 
-  // Initialisation de l'interface : affichage de la galerie et des filtres
-  displayWorks(works)
-  displayFilters(categories, works)
+  // 3. Affichage des éléments à l'écran
+  displayWorks(works);
+  displayFilters(categories, works);
 
+  // 4. Écouteur pour l'ouverture de la modale
   const modalBtn = document.querySelector(".js-modal");
   modalBtn.addEventListener("click", function (e) {
-    e.preventDefault()
-    openModal(works)
-  })
+    e.preventDefault();
+    openModal(works);
+  });
 }
 
 // Lancement de l'application
-main()
+main();

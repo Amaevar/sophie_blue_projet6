@@ -1,98 +1,106 @@
 import { loginApi } from "./api.js";
 
-// Sélection des éléments de navigation (Login/Logout)
-const loginButton = document.getElementById("login")
-const logoutButton = document.getElementById("logout")
-const editBanner = document.querySelector(".edit-mode-banner")
-const editButton = document.querySelector(".edit-btn")
-const filters = document.querySelector(".filters")
+// --- 1. SÉLECTION DES ÉLÉMENTS DU DOM ---
+const loginButton = document.getElementById("login");
+const logoutButton = document.getElementById("logout");
+const editBanner = document.querySelector(".edit-mode-banner");
+const editButton = document.querySelector(".edit-btn");
+const filters = document.querySelector(".filters");
 
+// --- 2. GESTION DE L'INTERFACE UTILISATEUR ---
+
+/**
+ * Alterne l'affichage entre le mode édition et le mode classique.
+ */
 function handleBannerDisplay(shouldDisplay) {
     if (shouldDisplay) {
-        editBanner.style.display = "flex"
-        editButton.style.display = "inline-block"
-        filters.style.display = "none"
+        editBanner.style.display = "flex";
+        editButton.style.display = "inline-block";
+        filters.style.display = "none";
     } else {
-        editBanner.style.display = "none"
-        editButton.style.display = "none"
-        filters.style.display = "flex"
+        editBanner.style.display = "none";
+        editButton.style.display = "none";
+        filters.style.display = "flex";
     }
 }
 
-// --- ACTION DE DÉCONNEXION ---
+// --- 3. PROCESSUS DE CONNEXION / DÉCONNEXION ---
+
+/**
+ * Déconnecte l'utilisateur en supprimant le token.
+ */
 function logout() {
-    console.log("Logout !")
+    console.log("Logout !");
+    localStorage.removeItem("token"); // Nettoyage de la session
 
-    // Suppression du jeton d'authentification
-    localStorage.removeItem("token");
-
-    // Mise à jour de l'affichage des boutons
-    loginButton.setAttribute("class", "display")
-    logoutButton.setAttribute("class", "hide")
-    handleBannerDisplay(false)
+    // Réinitialisation de la navigation
+    loginButton.setAttribute("class", "display");
+    logoutButton.setAttribute("class", "hide");
+    handleBannerDisplay(false);
 }
 
-// --- VÉRIFICATION DE L'ÉTAT DE CONNEXION ---
+/**
+ * Vérifie si l'utilisateur est connecté et adapte l'UI en conséquence.
+ */
 export function authenticationCheck() {
-    const isLogged = localStorage.getItem("token")
+    const isLogged = localStorage.getItem("token");
 
-    // Si l'utilisateur n'est pas connecté
+    // Cas 1 : Utilisateur non connecté
     if (!isLogged) {
-        loginButton.setAttribute("class", "display")
-        logoutButton.setAttribute("class", "hide")
-
-        //  cache le bandeau noir le bouton modifier et garde les filtre
-        handleBannerDisplay(false)
-        return
+        loginButton.setAttribute("class", "display");
+        logoutButton.setAttribute("class", "hide");
+        handleBannerDisplay(false);
+        return;
     }
 
-    // Si l'utilisateur est connecté 
-    loginButton.setAttribute("class", "hide")
-    logoutButton.setAttribute("class", "display")
+    // Cas 2 : Utilisateur connecté 
+    loginButton.setAttribute("class", "hide");
+    logoutButton.setAttribute("class", "display");
+    handleBannerDisplay(true);
 
-    //  Affichage du bandeau noir du bouton modifier et cache les filtre
-    handleBannerDisplay(true)
-
+    // Écouteur pour la déconnexion
     logoutButton.addEventListener("click", (e) => {
-        e.preventDefault()
-        logout()
-    })
+        e.preventDefault();
+        logout();
+    });
 }
 
-// --- TRAITEMENT DE LA SOUMISSION DU FORMULAIRE ---
-
+/**
+ * Traite l'envoi du formulaire de connexion vers l'API.
+ */
 async function handleSubmit() {
-    // Réinitialisation du message d'erreur à chaque tentative
     const errorMsg = document.querySelector(".error");
-    if (errorMsg) errorMsg.innerText = "";
+    if (errorMsg) errorMsg.innerText = ""; // Réinitialisation de l'erreur
 
-    // Récupération des valeurs saisies par l'utilisateur
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    // Appel à l'API pour tenter la connexion
     const response = await loginApi(email, password);
 
-    // Si un token est reçu, la connexion est réussie
+    // Succès de la connexion
     if (response.token) {
         localStorage.setItem("token", response.token);
-        window.location.href = "index.html"; // Redirection vers l'accueil
+        window.location.href = "index.html"; // Redirection
     } else {
-        // Affichage du message d'erreur en cas d'échec
+        // Échec : affichage du message d'erreur
         errorMsg.innerText = response.message;
     }
 }
 
-// --- INITIALISATION DES ÉCOUTEURS D'ÉVÉNEMENTS DU FORMULAIRE ---
+// --- 4. INITIALISATION DES ÉCOUTEURS ---
+
+/**
+ * Initialise l'écouteur sur le formulaire de login.
+ */
 async function login() {
     const form = document.querySelector(".login-form");
+    if (!form) return; 
 
-    // Interception de l'envoi du formulaire
     form.addEventListener("submit", async function (e) {
-        e.preventDefault()
-        await handleSubmit()
-    })
+        e.preventDefault();
+        await handleSubmit();
+    });
 }
 
-
-login()
+// Lancement automatique du script de login
+login();
